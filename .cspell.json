@@ -1,0 +1,34 @@
+{
+	"version": "0.2",
+	"language": "en",
+	"useGitignore": true,
+	"dictionaries": [
+		"typescript",
+		"node",
+		"html",
+		"css",
+		"bash",
+		"npm",
+		"filetypes",
+		"fonts",
+		"project",
+		"nodejs"
+	],
+	"dictionaryDefinitions": [
+		{
+			"name": "project",
+			"path": "./.cspell/project.txt",
+			"noSuggest": true
+		},
+		{
+			"name": "nodejs",
+			"path": "./.cspell/nodejs.txt",
+			"noSuggest": true
+		},
+		{
+			"name": "python",
+			"path": "./.cspell/python.txt",
+			"noSuggest": true
+		}
+	]
+}
