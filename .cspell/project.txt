@@ -1,5 +1,8 @@
+autoflake
+dynaconf
 favorited
 favoriting
+isort
 jwtid
 realworld
 signin
@@ -10,4 +13,3 @@ unfavoriting
 unfollow
 unfollowed
 unfollows
-dynaconf

@@ -1,7 +1,0 @@
-pytest
-codecov
-coverage
-requests
-sqlalchemy
-alembic
-dynaconf

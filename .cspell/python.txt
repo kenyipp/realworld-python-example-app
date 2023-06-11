@@ -1,1 +1,11 @@
+autopep
+dataclass
+dataclasses
 dynaconf
+hashlib
+hexdigest
+pytest
+sessionmaker
+sqlalchemy
+staticmethod
+urandom

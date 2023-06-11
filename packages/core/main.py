@@ -1,2 +1,0 @@
-from dynaconf import settings
-

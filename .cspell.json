@@ -4,6 +4,7 @@
 	"useGitignore": true,
 	"dictionaries": [
 		"typescript",
+		"python",
 		"node",
 		"html",
 		"css",
@@ -16,6 +17,11 @@
 	],
 	"dictionaryDefinitions": [
 		{
+			"name": "python",
+			"path": "./.cspell/python.txt",
+			"noSuggest": true
+		},
+		{
 			"name": "project",
 			"path": "./.cspell/project.txt",
 			"noSuggest": true
@@ -23,11 +29,6 @@
 		{
 			"name": "nodejs",
 			"path": "./.cspell/nodejs.txt",
-			"noSuggest": true
-		},
-		{
-			"name": "python",
-			"path": "./.cspell/python.txt",
 			"noSuggest": true
 		}
 	]
