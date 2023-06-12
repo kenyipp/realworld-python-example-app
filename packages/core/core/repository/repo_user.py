@@ -25,14 +25,14 @@ class RepoUser:
         return user
 
     def create_user(
-        self, username: str, email: str, bio: str, image: str, password: str
+        self, username: str, email: str, password_hash: str, bio: str = None, image: str = None
     ) -> str:
         user_id = self.db_user.create_user(
-            username,
-            email,
-            bio,
-            image,
-            password
+            username=username,
+            email=email,
+            bio=bio,
+            image=image,
+            password_hash=password_hash
         )
         return user_id
 

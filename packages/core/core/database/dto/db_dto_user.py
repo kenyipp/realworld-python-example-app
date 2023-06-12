@@ -14,7 +14,6 @@ class DbDtoUser:
     bio: Optional[str]
     image: Optional[str]
     password_hash: str
-    password_salt: str
     record_status: RecordStatus
     created_at: datetime
     updated_at: datetime
@@ -28,7 +27,6 @@ class DbDtoUser:
             bio=row.bio,
             image=row.image,
             password_hash=row.password_hash,
-            password_salt=row.password_salt,
             record_status=RecordStatus(row.record_status),
             created_at=row.created_at,
             updated_at=row.updated_at,

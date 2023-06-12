@@ -1,4 +1,4 @@
-from core.service.auth.implementation.password_handler import PasswordHandler
+from core.service.auth.implementation import PasswordHandler
 
 
 class AuthService:

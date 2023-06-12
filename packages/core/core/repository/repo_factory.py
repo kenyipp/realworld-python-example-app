@@ -1,6 +1,7 @@
 from core.database.db_factory import DbFactory
 from core.repository.repo_user import RepoUser
 
+
 class RepoFactory:
 
     def __init__(self, session):

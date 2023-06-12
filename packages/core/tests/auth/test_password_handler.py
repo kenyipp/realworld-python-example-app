@@ -4,8 +4,7 @@ from faker import Faker
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from utils import connection_string
-from core.service.auth.error.password_requirements_not_met_error import PasswordRequirementsNotMetError
-from core.service.auth.error.password_not_match_error import PasswordNotMatchError
+from core.service.auth.error import PasswordRequirementsNotMetError, PasswordNotMatchError
 
 faker = Faker()
 

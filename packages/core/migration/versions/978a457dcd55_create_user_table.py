@@ -23,7 +23,6 @@ def upgrade() -> None:
         sa.Column("email", sa.String(250), unique=True, nullable=False),
         sa.Column("bio", sa.Text()),
         sa.Column("image", sa.Text()),
-        sa.Column("password_salt", sa.String(64), nullable=False),
         sa.Column("password_hash", sa.String(64), nullable=False),
         sa.Column(
             "record_status",

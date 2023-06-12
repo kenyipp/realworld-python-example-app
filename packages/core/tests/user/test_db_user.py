@@ -8,14 +8,14 @@ from utils import clear_database, connection_string, migrate_database
 faker = Faker()
 
 
-@pytest.fixture
+@pytest.fixture(autouse=True)
 def hydrate_database():
     migrate_database()
     yield
     clear_database()
 
 
-def test_create_user(hydrate_database):
+def test_create_user():
     engine = create_engine(connection_string, echo=False)
     Session = sessionmaker(bind=engine)
     session = Session()

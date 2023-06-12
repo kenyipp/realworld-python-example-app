@@ -16,4 +16,3 @@ class PasswordRequirementsNotMetError(Exception):
         self.code = ErrorCodes.PasswordRequirementsNotMetError
         self.message = "Password requirements not met. Your password must be at least 6 characters long and contain at least one letter and one digit.",
         self.details = details
-        pass

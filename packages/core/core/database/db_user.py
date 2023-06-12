@@ -1,5 +1,3 @@
-import hashlib
-import os
 from typing import List
 from uuid import uuid4
 
@@ -81,7 +79,7 @@ class DbUser:
         return DbDtoUser.from_user_model(row) if row else None
 
     def create_user(
-        self, username: str, email: str, bio: str, image: str, password: str
+        self, username: str, email: str, password_hash: str, bio: str = None, image: str = None
     ) -> str:
         """
         Creates a new user in the database with the provided information.
@@ -98,20 +96,13 @@ class DbUser:
 
         """
         user_id = str(uuid4())
-        salt = os.urandom(16)
-        # Concatenate the password and salt
-        salted_password = password.encode("utf-8") + salt
-        # Hash the salted password using a secure hashing algorithm (e.g.,
-        # SHA-256)
-        hashed_password = hashlib.sha256(salted_password).hexdigest()
         user = User(
             id=user_id,
             username=username,
             email=email,
             bio=bio,
             image=image,
-            password_hash=hashed_password,
-            password_salt=salt.hex()
+            password_hash=password_hash
         )
         self.session.add(user)
         self.session.commit()
