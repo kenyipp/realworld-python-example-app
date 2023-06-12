@@ -1,0 +1,5 @@
+from typing import List
+from core.service.auth.error.password_requirements_not_met_error import PasswordRequirementsNotMetError
+
+
+print(PasswordRequirementsNotMetError)

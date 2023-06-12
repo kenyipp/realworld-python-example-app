@@ -4,7 +4,9 @@ from core.database.db_user import DbUser
 
 
 class RepoUser:
-    db_user: DbUser
+
+    def __init__(self, db_user: DbUser):
+        self.db_user = db_user
 
     def get_user_by_id(self, id: str):
         user = self.db_user.get_user_by_id(id)

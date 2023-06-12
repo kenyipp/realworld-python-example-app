@@ -1,9 +1,13 @@
 autopep
+checkpw
 dataclass
 dataclasses
 dynaconf
+gensalt
 hashlib
+hashpw
 hexdigest
+isinstance
 pytest
 sessionmaker
 sqlalchemy
