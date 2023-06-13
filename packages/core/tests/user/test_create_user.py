@@ -1,27 +1,20 @@
 import pytest
-from core.factory import Factory
-from faker import Faker
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from utils import clear_database, connection_string, migrate_database
 from core.constants import RecordStatus
+from core.factory import Factory
 from core.service.user.error import UserExistError
+from faker import Faker
+from utils import dangerous_reset_database
 
 faker = Faker()
 
 
 @pytest.fixture(autouse=True)
-def hydrate_database():
-    migrate_database()
-    yield
-    clear_database()
+def setup():
+    dangerous_reset_database()
 
 
 def test_create_user():
-    engine = create_engine(connection_string, echo=False)
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    factory = Factory(session=session)
+    factory = Factory()
     user_service = factory.new_user_service()
 
     user_body = {
@@ -38,14 +31,9 @@ def test_create_user():
     assert user.bio is None
     assert user.image is None
 
-    engine.dispose()
-
 
 def test_create_user_username_taken_error():
-    engine = create_engine(connection_string, echo=False)
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    factory = Factory(session=session)
+    factory = Factory()
     user_service = factory.new_user_service()
 
     user_body = {
@@ -62,14 +50,11 @@ def test_create_user_username_taken_error():
             password=user_body["password"]
         )
 
-    engine.dispose()
-
 
 def test_create_user_email_used_error():
-    engine = create_engine(connection_string, echo=False)
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    factory = Factory(session=session)
+    factory = Factory()
+    user_service = factory.new_user_service()
+    factory = Factory()
     user_service = factory.new_user_service()
 
     user_body = {
@@ -85,5 +70,3 @@ def test_create_user_email_used_error():
             email=user_body["email"],
             password=user_body["password"]
         )
-
-    engine.dispose()

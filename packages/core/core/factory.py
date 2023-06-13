@@ -4,8 +4,8 @@ from core.service.user.user_service import UserService
 
 
 class Factory:
-    def __init__(self, session) -> None:
-        self.repo_factory = RepoFactory(session)
+    def __init__(self) -> None:
+        self.repo_factory = RepoFactory()
 
     def new_auth_service(self):
         auth_service = AuthService()

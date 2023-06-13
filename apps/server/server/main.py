@@ -1,1 +1,1 @@
-from core.utils.settings import settings
+from flask import Flask

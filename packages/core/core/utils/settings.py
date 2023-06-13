@@ -15,5 +15,3 @@ settings = Settings(
     environments=[environment.value for environment in Environment],
     validators=[Validator("HOST", required=True)],
 )
-
-__all__ = ["settings"]

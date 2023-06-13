@@ -1,8 +1,2 @@
 [dynaconf]
 host = "localhost"
-
-[development]
-host = "localhost"
-
-[production]
-host = "mysql"

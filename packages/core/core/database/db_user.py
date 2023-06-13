@@ -2,18 +2,13 @@ from typing import List
 from uuid import uuid4
 
 from core.database.dto.db_dto_user import DbDtoUser
+from core.database.engine import engine
 from core.database.models.user import User
-from core.database.models.user_follow import UserFollow
-from sqlalchemy import insert, update
 from sqlalchemy.orm import Session
-from sqlalchemy.sql import and_, or_
+from sqlalchemy.sql import or_
 
 
 class DbUser:
-    session: Session
-
-    def __init__(self, session: Session):
-        self.session = session
 
     def get_user_by_id(self, id: str):
         """
@@ -42,9 +37,13 @@ class DbUser:
         """
         if len(ids) < 1:
             return []
-        rows = self.session.query(User).where(User.id.in_(ids)).all()
+
+        with Session(engine) as session:
+            rows = session.query(User).where(User.id.in_(ids)).all()
+
         dto_users = [DbDtoUser.from_user_model(row) for row in rows]
         dto_users = sorted(dto_users, key=lambda user: ids.index(user.id))
+
         return dto_users
 
     def get_user_by_email(self, email: str):
@@ -59,7 +58,10 @@ class DbUser:
                             None if no user is found.
 
         """
-        row = self.session.query(User).where(User.email.__eq__(email)).first()
+
+        with Session(engine) as session:
+            row = session.query(User).where(User.email.__eq__(email)).first()
+
         return DbDtoUser.from_user_model(row) if row else None
 
     def get_user_by_username(self, username: str):
@@ -74,8 +76,11 @@ class DbUser:
                             None if no user is found.
 
         """
-        row = self.session.query(User).where(
-            User.username.__eq__(username)).first()
+
+        with Session(engine) as session:
+            row = session.query(User).where(
+                User.username.__eq__(username)).first()
+
         return DbDtoUser.from_user_model(row) if row else None
 
     def create_user(
@@ -95,7 +100,9 @@ class DbUser:
             str: The ID of the newly created user.
 
         """
+
         user_id = str(uuid4())
+
         user = User(
             id=user_id,
             username=username,
@@ -104,46 +111,49 @@ class DbUser:
             image=image,
             password_hash=password_hash
         )
-        self.session.add(user)
-        self.session.commit()
+
+        with Session(engine) as session:
+            session.add(user)
+            session.commit()
+
         return user_id
 
-    def update_user(
-        self, id: str, email: str, username: str, password_hash: str, image: str, bio: str
-    ) -> None:
-        """
-        Updates a user in the database with the provided information.
+    # def update_user(
+    #     self, id: str, email: str, username: str, password_hash: str, image: str, bio: str
+    # ) -> None:
+    #     """
+    #     Updates a user in the database with the provided information.
 
-        Args:
-            id (str): The ID of the user.
-            email (str): The new email for the user.
-            username (str): The new username for the user.
-            hash (str): The new password hash for the user.
-            image (str): The new image URL for the user.
-            bio (str): The new biography for the user.
+    #     Args:
+    #         id (str): The ID of the user.
+    #         email (str): The new email for the user.
+    #         username (str): The new username for the user.
+    #         hash (str): The new password hash for the user.
+    #         image (str): The new image URL for the user.
+    #         bio (str): The new biography for the user.
 
-        Returns:
-            None
+    #     Returns:
+    #         None
 
-        """
-        if not email and not username and not password_hash and not image and not bio:
-            return
+    #     """
+    #     if not email and not username and not password_hash and not image and not bio:
+    #         return
 
-        updates = {}
-        if email is not None:
-            updates["email"] = email
-        if username is not None:
-            updates["username"] = username
-        if hash is not None:
-            updates["password_hash"] = password_hash
-        if image is not None:
-            updates["image"] = image
-        if bio is not None:
-            updates["bio"] = bio
+    #     updates = {}
+    #     if email is not None:
+    #         updates["email"] = email
+    #     if username is not None:
+    #         updates["username"] = username
+    #     if hash is not None:
+    #         updates["password_hash"] = password_hash
+    #     if image is not None:
+    #         updates["image"] = image
+    #     if bio is not None:
+    #         updates["bio"] = bio
 
-        query = update(User).where(User.id == id).values(**updates)
-        self.session.execute(query)
-        self.session.commit()
+    #     query = update(User).where(User.id == id).values(**updates)
+    #     self.session.execute(query)
+    #     self.session.commit()
 
     def is_user_exist(self, username: str, email: str) -> bool:
         """
@@ -160,95 +170,98 @@ class DbUser:
         if not username and not email:
             return False
 
-        row = self.session.query(User).filter(
-            or_(User.username == username, User.email == email)).first()
+        with Session(engine) as session:
+            row = session.query(User).filter(
+                or_(User.username == username, User.email == email)).first()
+
         return bool(row)
 
-    def follow_user(self, follower_id: str, following_id: str) -> None:
-        """
-        Creates a new user follow relationship in the database.
+    # def follow_user(self, follower_id: str, following_id: str) -> None:
+    #     """
+    #     Creates a new user follow relationship in the database.
 
-        Args:
-            follower_id (str): The ID of the follower user.
-            following_id (str): The ID of the user being followed.
+    #     Args:
+    #         follower_id (str): The ID of the follower user.
+    #         following_id (str): The ID of the user being followed.
 
-        Returns:
-            None
+    #     Returns:
+    #         None
 
-        """
-        follow_data = {
-            "follower_id": follower_id,
-            "following_id": following_id,
-            "record_status": "A"
-        }
+    #     """
+    #     follow_data = {
+    #         "follower_id": follower_id,
+    #         "following_id": following_id,
+    #         "record_status": "A"
+    #     }
 
-        query = insert(UserFollow).values(**follow_data).on_conflict(
-            ["follower_id", "following_id"]
-        ).merge()
+    #     query = insert(UserFollow).values(**follow_data).on_conflict(
+    #         ["follower_id", "following_id"]
+    #     ).merge()
 
-        self.session.execute(query)
-        self.session.commit()
+    #     self.session.execute(query)
+    #     self.session.commit()
 
-    def unfollow_user(self, follower_id: str, following_id: str) -> None:
-        """
-        Removes the user follow relationship from the database.
+    # def unfollow_user(self, follower_id: str, following_id: str) -> None:
+    #     """
+    #     Removes the user follow relationship from the database.
 
-        Args:
-            follower_id (str): The ID of the follower user.
-            following_id (str): The ID of the user being unfollowed.
+    #     Args:
+    #         follower_id (str): The ID of the follower user.
+    #         following_id (str): The ID of the user being unfollowed.
 
-        Returns:
-            None
+    #     Returns:
+    #         None
 
-        """
-        updates = {
-            "record_status": "deleted"
-        }
+    #     """
+    #     updates = {
+    #         "record_status": "deleted"
+    #     }
 
-        query = update(UserFollow).where(
-            and_(
-                UserFollow.follower_id == follower_id,
-                UserFollow.following_id == following_id
-            )
-        ).values(**updates)
+    #     query = update(UserFollow).where(
+    #         and_(
+    #             UserFollow.follower_id == follower_id,
+    #             UserFollow.following_id == following_id
+    #         )
+    #     ).values(**updates)
 
-        self.session.execute(query)
-        self.session.commit()
+    #     self.session.execute(query)
+    #     self.session.commit()
 
-    def is_following(self, follower_id: str, following_id: str) -> bool:
-        """
-        Checks if the follower user is following the specified user.
+    # def is_following(self, follower_id: str, following_id: str) -> bool:
+    #     """
+    #     Checks if the follower user is following the specified user.
 
-        Args:
-            follower_id (str): The ID of the follower user.
-            following_id (str): The ID of the user to check if being followed.
+    #     Args:
+    #         follower_id (str): The ID of the follower user.
+    # following_id (str): The ID of the user to check if being followed.
 
-        Returns:
-            bool: True if the follower user is following the specified user, False otherwise.
+    #     Returns:
+    # bool: True if the follower user is following the specified user, False
+    # otherwise.
 
-        """
+    #     """
 
-        row = self.session.query(UserFollow).filter(
-            and_(
-                UserFollow.record_status == "normal",
-                UserFollow.follower_id == follower_id,
-                UserFollow.following_id == following_id
-            )
-        ).first()
-        return bool(row)
+    #     row = self.session.query(UserFollow).filter(
+    #         and_(
+    #             UserFollow.record_status == "normal",
+    #             UserFollow.follower_id == follower_id,
+    #             UserFollow.following_id == following_id
+    #         )
+    #     ).first()
+    #     return bool(row)
 
-    def ban_user_by_id(self, id: str) -> None:
-        """
-        Bans a user by their ID.
+    # def ban_user_by_id(self, id: str) -> None:
+    #     """
+    #     Bans a user by their ID.
 
-        Args:
-            id (str): The ID of the user to ban.
+    #     Args:
+    #         id (str): The ID of the user to ban.
 
-        Returns:
-            None
+    #     Returns:
+    #         None
 
-        """
-        stmt = update(User).where(User.user_id ==
-                                  id).values(status_id="banned")
-        self.session.execute(stmt)
-        self.session.commit()
+    #     """
+    #     stmt = update(User).where(User.user_id ==
+    #                               id).values(status_id="banned")
+    #     self.session.execute(stmt)
+    #     self.session.commit()

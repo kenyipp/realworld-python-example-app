@@ -1,5 +1,5 @@
-from core.service.auth.auth_service import AuthService
 from core.repository.repo_user import RepoUser
+from core.service.auth.auth_service import AuthService
 from core.service.user.error import UserExistError
 
 
