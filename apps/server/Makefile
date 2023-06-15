@@ -12,3 +12,6 @@ lint:
 
 lint-fix:
 	autopep8 --in-place --aggressive --recursive .
+
+coverage:
+	ENV_FOR_DYNACONF=testing python -m coverage run -m pytest

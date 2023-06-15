@@ -1,6 +1,7 @@
 autopep
 autouse
 checkpw
+codecov
 dataclass
 dataclasses
 dynaconf
@@ -10,11 +11,15 @@ hashpw
 hexdigest
 isinstance
 pydantic
+pypoetry
 pytest
 sessionmaker
+snok
 sqlalchemy
 staticmethod
 timedelta
 urandom
 utcnow
+venv
+virtualenvs
 werkzeug

@@ -1,5 +1,5 @@
 test:
-	ENV_FOR_DYNACONF=testing pytest ./tests -s
+	RUN_MODE=testing pytest ./tests -s
 
 sort-import:
 	find . -name "*.py" -exec isort {} +
@@ -12,3 +12,6 @@ lint:
 
 lint-fix:
 	autopep8 --in-place --aggressive --recursive .
+
+coverage:
+	python -m coverage run -m pytest
