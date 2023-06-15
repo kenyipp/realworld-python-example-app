@@ -1,3 +1,4 @@
+asdict
 autoflake
 dynaconf
 favorited

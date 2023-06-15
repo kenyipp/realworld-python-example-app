@@ -1,7 +1,7 @@
 import pytest
 from core.database.db_factory import DbFactory
+from core.utils import dangerous_reset_database
 from faker import Faker
-from utils import dangerous_reset_database
 
 faker = Faker()
 

@@ -1,10 +1,13 @@
-from server.utils.json_web_token import sign_json_web_token, verify_json_web_token
+from datetime import datetime
 from uuid import uuid4
+
 from core.database.dto import DbDtoUser
 from faker import Faker
-from datetime import datetime
+from server.utils.json_web_token import (sign_json_web_token,
+                                         verify_json_web_token)
 
 faker = Faker()
+
 
 def test_sign_json_web_token():
     db_dto_user = DbDtoUser(
@@ -19,7 +22,8 @@ def test_sign_json_web_token():
         updated_at=datetime.utcnow()
     )
     access_token = sign_json_web_token(db_dto_user=db_dto_user)
-    assert type(access_token) == str
+    assert isinstance(access_token, str)
+
 
 def test_verify_json_web_token():
     db_dto_user = DbDtoUser(
@@ -34,7 +38,7 @@ def test_verify_json_web_token():
         updated_at=datetime.utcnow()
     )
     access_token = sign_json_web_token(db_dto_user=db_dto_user)
-    assert type(access_token) == str
+    assert isinstance(access_token, str)
 
     decoded = verify_json_web_token(access_token)
     assert decoded.get("hash") is not None

@@ -4,8 +4,8 @@ class APIError(Exception):
         code: int,
         message: str,
         error_code: str,
-        error_type = None,
-        payload = None
+        error_type=None,
+        payload=None
     ):
         self.code = code
         self.message = message

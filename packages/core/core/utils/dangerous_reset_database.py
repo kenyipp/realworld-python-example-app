@@ -3,8 +3,8 @@ from os import path
 from alembic import command
 from alembic.config import Config
 
-db_file = "db.sql"
-migration_path = path.join(path.dirname(__file__), "../migration")
+db_file = "db.sqlite3"
+migration_path = path.join(path.dirname(__file__), "../../migration")
 connection_string = "sqlite:///{}".format(db_file)
 
 

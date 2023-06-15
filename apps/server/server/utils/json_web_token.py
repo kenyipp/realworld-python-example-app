@@ -1,9 +1,11 @@
-import jwt
-import json
 import hashlib
+import json
 from datetime import datetime, timedelta
+
+import jwt
 from core.database.dto import DbDtoUser
 from core.utils.settings import settings
+
 
 def sign_json_web_token(db_dto_user: DbDtoUser) -> str:
     hash_string = hash_db_dto_user(db_dto_user=db_dto_user)
@@ -16,9 +18,11 @@ def sign_json_web_token(db_dto_user: DbDtoUser) -> str:
     token = jwt.encode(payload, settings.jwt_signature, algorithm="HS256")
     return token
 
+
 def verify_json_web_token(access_token: str):
     decoded = jwt.decode(jwt=access_token, key=settings.jwt_signature, algorithms=["HS256"])
     return decoded
+
 
 def hash_db_dto_user(db_dto_user: DbDtoUser):
     filtered_data = {

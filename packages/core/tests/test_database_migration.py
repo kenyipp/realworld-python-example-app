@@ -1,5 +1,5 @@
+from core.utils import connection_string, dangerous_reset_database
 from sqlalchemy import MetaData, create_engine
-from utils import dangerous_reset_database, connection_string
 
 
 def test_database_migration():

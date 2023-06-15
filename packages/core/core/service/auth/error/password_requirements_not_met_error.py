@@ -15,5 +15,6 @@ class PasswordRequirementsNotMetError(Exception):
 
     def __init__(self, details: List[str]):
         self.code = ErrorCodes.PasswordRequirementsNotMetError
-        self.message = "Password requirements not met. Your password must be at least 6 characters long and contain at least one letter and one digit.",
+        self.message = "Password requirements not met. \
+            Your password must be at least 6 characters long and contain at least one letter and one digit.",
         self.details = details

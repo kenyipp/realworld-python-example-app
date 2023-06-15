@@ -1,23 +1,20 @@
-from flask import request, jsonify
-from server.user.service.factory import Factory
+from flask import jsonify, request
 from server.user.dto import ApiInputRegistration
+from server.user.service.factory import Factory
 
 factory = Factory()
 api_registration = factory.new_api_registration()
 
+
 def registration():
     request_body = request.get_json()
-    body = ApiInputRegistration(**request_body)
-
-    username = body.get("username")
-    email = body.get("email")
-    password: body.get("password")
-    image: body.get("image")
+    body = ApiInputRegistration(**request_body.get("user"))
 
     response = api_registration.execute(
-        username=username,
-        email=email,
-        password=password,
-        image=image
+        username=body.username,
+        email=body.email,
+        password=body.password,
+        image=body.image
     )
+
     return jsonify(response)

@@ -1,6 +1,7 @@
 from core.factory import Factory as ServiceFactory
 from server.user.service.api_registration import APIRegistration
 
+
 class Factory:
 
     def __init__(self) -> None:

@@ -9,6 +9,7 @@ class Settings(Dynaconf):
     host: str
     jwt_signature: str
 
+
 settings = Settings(
     envvar_prefix="CONDUIT",
     settings_files=["settings.toml"],

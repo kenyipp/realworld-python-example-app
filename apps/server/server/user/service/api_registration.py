@@ -1,8 +1,9 @@
 from core.service import UserService
-from core.service.user.error import UserExistError
 from core.service.auth.error import PasswordRequirementsNotMetError
-from server.error import APIErrorConflict, APIErrorBadRequest
+from core.service.user.error import UserExistError
+from server.error import APIErrorBadRequest, APIErrorConflict
 from server.user.dto import DtoUser
+
 
 class APIRegistration():
     def __init__(self, user_service: UserService) -> None:
@@ -26,15 +27,15 @@ class APIRegistration():
             return {
                 "user": dto_user
             }
-        except PasswordRequirementsNotMetError as error:
+        except PasswordRequirementsNotMetError:
             raise APIErrorBadRequest(
-                message="Password requirements not met. Your password must be at least 6 characters long and contain at least one letter and one digit.",
-                cause=error
+                message="Password requirements not met. \
+                    Your password must be at least 6 characters long and contain at least one letter and one digit."
             )
-        except UserExistError as error:
+        except UserExistError:
             raise APIErrorConflict(
-                message="The provided email or username is already registered. Please use a different email or username.",
-                cause=error
+                message="The provided email or username is already registered. \
+                    Please use a different email or username."
             )
         except Exception as error:
             raise error

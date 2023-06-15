@@ -2,8 +2,8 @@ import pytest
 from core.constants import RecordStatus
 from core.factory import Factory
 from core.service.user.error import UserExistError
+from core.utils import dangerous_reset_database
 from faker import Faker
-from utils import dangerous_reset_database
 
 faker = Faker()
 
