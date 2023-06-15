@@ -7,7 +7,7 @@ load_dotenv()
 
 class Settings(Dynaconf):
     host: str
-
+    jwt_signature: str
 
 settings = Settings(
     envvar_prefix="CONDUIT",

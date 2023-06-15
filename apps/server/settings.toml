@@ -1,8 +1,9 @@
 [dynaconf]
 host = "localhost"
 
-[development]
+[testing]
 host = "localhost"
+jwt_signature = "how_do_you_turn_it_on"
 
 [production]
 host = "mysql"
